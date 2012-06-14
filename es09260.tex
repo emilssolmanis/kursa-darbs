@@ -1,0 +1,58 @@
+\documentclass{ludis}
+
+% xelatex
+\usepackage{fontspec}
+\usepackage{xunicode}
+\usepackage{xltxtra}
+
+% languages
+\usepackage{fixlatvian}
+\usepackage{polyglossia}
+\setdefaultlanguage{latvian}
+\setotherlanguages{english,russian}
+
+% graphics
+\usepackage{graphicx}
+\DeclareGraphicsExtensions{.png,.eps}
+
+% fonts
+%\setmainfont[Mapping=tex-text]{Times New Roman}
+%\setsansfont[Mapping=tex-text]{Arial}
+%\newfontfamily\russianfont{Times New Roman}
+
+%% \usepackage{amsmath}
+%% \usepackage{amssymb}
+%% \usepackage{enumerate}
+
+\fakultate{Datorikas}
+\nosaukums{Tehnoloģiju izvēle mašīnmācīšanās eksperimentu veikšanai}
+\darbaveids{Kursa}
+\autors{Emīls Šolmanis}
+\studapl{es09260}
+\vaditajs{Asoc. prof., Dr. dat. Jānis Zuters}
+\vieta{Rīga}
+\gads{2012}
+
+\begin{document}
+\maketitle
+
+\begin{abstract-lv}
+  Darba mērķis ir izpētīt tehnoloģijas, kas varētu tikt lietotas dažādu mašīnmācīšanās eksperimentu implementācijā. Mērķis ir katram no eksperimentiem atrast optimālu risinājumu implementācijai -- programmēšanas valodas, pieejamo ietvaru, bibliotēku un algoritmu ziņā, ņemot vērā veiktspēju, prognozēto darbietilpību un galaprodukta uzturamību.
+  \keywords{mašīnmācīšanās, tehnoloģiju izvēle, programminženierija}
+\end{abstract-lv}
+
+\begin{abstract-en}
+  The aim of this thesis is to explore the available options that could be used in the implementation of several machine learning experiments. For each of these experiments, the goal is to find the optimal means of implementation in terms of programming language, available frameworks, libraries and algorithms, considering the performance, estimated development effort and maintainability of the final product.
+\keywords{machine learning, choice of technology, software engineering}
+\end{abstract-en}
+
+\tableofcontents
+
+\specnodala{Ievads}
+Darbā apskatītas un salīdzinātas mūsdienās pieejamās tehnoloģijas mašīnmācīšanās eksperimentu implementēšanai. Hipotēze -- dažas no tām ir labākas un vairāk piemērotas šim mērķim par citām.\\
+Tehnoloģiju salīdzināšanai noteikti gan konkrēti, empīriski izmērāmi kritēriji, piemēram, veiktspēja un prognozētā darbietilpība, taču ņemti vērā arī nozīmīgākie subjektīvie apsvērumi -- piemēram, cik liels ir nepieciešamais sākotnējais darba ieguldījums tehnoloģijā (uzstādīšana, konfigurēšana u. tml.), pieejamā dokumentācija un tās kvalitāte.\\
+Tiek pieņemts, ka visām izvēlētajām tehnoloģijām jābūt maksimāli platform-neatkarīgām. Šajā gadījumā, noteiktais ierobežojums ir spēja apskatāmo objektu uzstādīt un darbināt ar x86 arhitektūras procesoriem uz Linux (kodola versija 2.4 un jaunāka), Mac OS X un Windows (versija 7 un jaunāka).\\
+Darbā apskatītie tehnoloģiju aspekti ir programmēšanas valoda, pseido-gadījumskaitļu ģenerēšana, lineārā algebra un paralēlās programmēšanas iespējas.\\
+
+
+\end{document}
