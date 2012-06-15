@@ -11,6 +11,9 @@
 \setdefaultlanguage{latvian}
 \setotherlanguages{english,russian}
 
+% bibtex
+\usepackage{cite}
+
 % graphics
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.png,.eps}
@@ -59,5 +62,49 @@ Darbā apskatītie tehnoloģiju aspekti ir programmēšanas valoda, pseido-gadī
 
 Apskatāmās problēmas izmērs neļauj apskatīt visas iespējamās alternatīvas, tādēļ problēmas risināšanas gaitā tiks apskatītas tikai populārākās un / vai nozīmīgākās iespējas. Tā kā ir hipotēze, ka kāda no tehnoloģijām ir labāka par citām, ir nepieciešami kritēriji, pēc kā tehnoloģiju vērtēt. Problēmas risināšanas gaitā, dažādām tehnoloģijām tika eksperimentāli noteikta veiktspēja un aptuveni aprēķināta prognozētā darbietilpība. Tehnoloģijām skalā no 0 līdz 10 tika subjektīvi novērtēts nepieciešamais sākotnējais darbs un pieejamās dokumentācijas kvalitāte.
 
+Darba rezultāti parāda, ka hipotēze ir pareiza. Eksistē tehnoloģijas, kas ir vairāk piemērotas mašīnmācīšanās eksperimentiem, nekā citas. Rezultāti pierāda, ka mūsdienu apstākļos vislabāk ir izvēlēties kādu no brīvi tipizētajām, dinamiskajām valodām, kurām vajadzības gadījumā ir iespēja izsaukt gatavas zemāka līmeņa bibliotēku funkcijas (piemēram, kādu BLAS pakotni).
+
+\chapter{Uzdevuma izpēte}
+\section{Problēmas būtība}
+Mūsdienās ir pieejams plašs tehnoloģiju klāsts, pirms vispār ķerties pie kāda konkrēta uzdevuma risināšanas ir jāizvēlas veids, kādā to darīt. Parasti ir jāizdara izvēle starp dažādām prorammēšanas paradigmām, tad konkrētām valodām, dažādiem algoritmiem, bibliotēkām un ietvariem, ko izmantot. Gandrīz nekad nav viena risinājuma, kas būtu labs visos aspektos un ir jāpieņem dažādi kompromisi -- piemēram, produkta izstrādes sākumā, prototipēsanas stadijā, bieži vien ir svarīgāk iespējami ātri izveidot strādājošu prototipu, nepievēršot pastiprinātu uzmanību ātrdarbībai.
+
+Ir hipotēze, ka ne visi ieguvumi un zaudējumi šajā procesā ir vienlīdzīgi, tādēļ ir iespējams atrast kādu tehnoloģiju konfigurāciju, kas ir labāka par citām, kuras izmantošanas ieguvumi būtu ievērojami lielāki par zaudējumiem.
+
+Darbā tiek pieņemts, ka uzdevuma implementācijas gaitā jārisina šādi tipiski mašīnmācīšanās eksperimentu aspekti:
+\begin{itemize}
+\item pseido-gadījumskaitļu ģenerēšana;
+\item lineārā algebra, uzsvars uz matricu / vektoru aritmētiku;
+\item paralēlā programmēšana;
+\item rezultātu grafēšanas iespējas, grafiku zīmēšana.
+\end{itemize}
+
+Šajā darbā tiek apskatīta izvēle starp:
+\begin{itemize}
+\item programmēšanas paradigmām;
+\item programmēšanas valodām, ja nepieciešams, ņemot vērā dažādas to implementācijas;
+\item vienas problēmas dažādiem risināšanas algoritmiem;
+\item pieejamajiem ietvariem un bibliotēkām.
+\end{itemize}
+
+\section{Programmēšanas paradigmas}
+Ir trīs populāras programmēšanas paradigmas, ko saista ar mākslīgā intelekta un mašīnmācīšanās izpēti un eksperimentiem -- deklaratīvā, funkcionālā un imperatīvā / procedurālā. 
+
+Var teikt, ka funkcionālā programmēšana radās tieši mākslīgā intelekta izpētes dēļ, jo īpaši valoda Lisp, un ar šo nozari tiek saistīta jau praktiski kopš tās pirmsākumiem \cite{hist_lisp}. 
+
+Līdzīgi ir ar deklaratīvo programmēšanu. Tā gan radās mazliet vēlāk, bet arī šīs paradigmas viens no senākajiem un populārākajiem pārstāvjiem, Prolog, jau no pirmsākumiem tiek saistīts ar mākslīgā intelekta izpēti, taču ne tik izteikti kā Lisp.
+
+Imperatīvās paradigmas nozīme mašīnmācīšanās un mākslīgā intelekta izpētes jomā pieauga gandrīz vienlaicīgi ar Lisp popularitātes kritumu, un šiem notikumiem bija vienots cēlonis -- personālo datoru cenas kritums, kas ļāva izpildīt jebkādas programmas uz jebkura datora. 
+
+Jāpiebilst, ka lai arī šī paradigma sākotnēji nespēlēja nopietnu lomu tieši mašīnmācīšanās izpētē, tās viens no pirmajiem pārstāvjiem, FORTRAN, ļāva ļoti efektīvi implementēt atsevišķas, svarīgas tehnoloģiju daļas, piemēram, matricu aritmētiku. Līdzīgas iespējas bija arī jaunākām valodām, C un C++. Tas stipri ietekmēja šīs paradigmas izaugsmi un popularitāti brīdī, kad skaitļošanas resursi kļuva lētāki un pieejamāki.
+
+Mūsdienās vērojams stabils dinamisko, multi-paradigmu valodu lietošanas pieaugums un tradicionālo funcktionālo valodu popularitātes kritums \cite{tiobe_index}. Tādējādi pamazām robeža starp paradigmām izplūst, un vairs nav retums pat viena projekta ietvaros sastapties ar vairākām. Pat C++ jaunajā standartā ir spēris soli tuvāk funkcionālajai programmēšanai ieviešot {\em lambda}-izteiksmes \cite{iso_cpp11}.
+
+
+
+% \chapter{Risinājums}
+% \chapter{Rezultāti}
+% \chapter{Secinājumi}
+
+\literatura{es09260}
 
 \end{document}
