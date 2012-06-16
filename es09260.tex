@@ -31,6 +31,10 @@ xetex]{hyperref}
 \setsansfont[Mapping=tex-text]{DejaVu Sans}
 \newfontfamily\russianfont{DejaVu Serif}
 
+% toc
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
 %% \usepackage{amsmath}
 %% \usepackage{amssymb}
 %% \usepackage{enumerate}
@@ -64,7 +68,7 @@ Darbā apskatītas un salīdzinātas mūsdienās pieejamās tehnoloģijas mašī
 
 Tehnoloģiju salīdzināšanai noteikti gan konkrēti, empīriski izmērāmi kritēriji, piemēram, veiktspēja un prognozētā darbietilpība, taču ņemti vērā arī nozīmīgākie subjektīvie apsvērumi -- piemēram, cik liels ir nepieciešamais sākotnējais darba ieguldījums tehnoloģijā (uzstādīšana, konfigurēšana u. tml.), pieejamā dokumentācija un tās kvalitāte.
 
-Tiek pieņemts, ka visām izvēlētajām tehnoloģijām jābūt maksimāli platform-neatkarīgām. Šajā gadījumā, noteiktais ierobežojums ir spēja apskatāmo objektu uzstādīt un darbināt ar x86 arhitektūras procesoriem uz Linux (kodola versija 2.4 un jaunāka), Mac OS X un Windows (versija 7 un jaunāka).
+Tiek pieņemts, ka visām izvēlētajām tehnoloģijām jābūt maksimāli platform-neatkarīgām. Šajā gadījumā, noteiktais ierobežojums ir spēja apskatāmo objektu uzstādīt un darbināt ar x86 arhitektūras procesoriem uz Linux (kodola versija 2.4 un jaunāka), Mac OS X (Snow Leopard un jaunāka) un Windows (versija 7 un jaunāka).
 
 Darbā apskatītie tehnoloģiju aspekti ir programmēšanas valoda, pseido-gadījumskaitļu ģenerēšana, lineārā algebra un paralēlās programmēšanas iespējas.
 
@@ -76,7 +80,9 @@ Darba rezultāti parāda, ka hipotēze ir pareiza. Eksistē tehnoloģijas, kas i
 \section{Problēmas būtība}
 Mūsdienās ir pieejams plašs tehnoloģiju klāsts, pirms vispār ķerties pie kāda konkrēta uzdevuma risināšanas ir jāizvēlas veids, kādā to darīt. Parasti ir jāizdara izvēle starp dažādām prorammēšanas paradigmām, tad konkrētām valodām, dažādiem algoritmiem, bibliotēkām un ietvariem, ko izmantot. Gandrīz nekad nav viena risinājuma, kas būtu labs visos aspektos un ir jāpieņem dažādi kompromisi -- piemēram, produkta izstrādes sākumā, prototipēsanas stadijā, bieži vien ir svarīgāk iespējami ātri izveidot strādājošu prototipu, nepievēršot pastiprinātu uzmanību ātrdarbībai.
 
-Ir hipotēze, ka ne visi ieguvumi un zaudējumi šajā procesā ir vienlīdzīgi, tādēļ ir iespējams atrast kādu tehnoloģiju konfigurāciju, kas ir labāka par citām, kuras izmantošanas ieguvumi būtu ievērojami lielāki par zaudējumiem.
+Ir hipotēze, ka, izvēloties pietiekami specifisku problēmu, ne visi ieguvumi un zaudējumi ir vienlīdzīgi, tādēļ ir iespējams atrast kādu tehnoloģiju konfigurāciju, kas ir labāka par citām, kuras izmantošanas ieguvumi būtu ievērojami lielāki par zaudējumiem.
+
+Pieņemts, ka mašīnmācīšanās ir mākslīgā intelekta izpētes apakšnozare, kas izstrādā algoritmus un metodes, kas balstoties uz empīriskiem datiem un novērojumiem ļauj datoram izveidot kādu uzvedības modeli.
 
 Darbā tiek pieņemts, ka uzdevuma implementācijas gaitā jārisina šādi tipiski mašīnmācīšanās eksperimentu aspekti:
 \begin{itemize}
@@ -94,10 +100,10 @@ Darbā tiek pieņemts, ka uzdevuma implementācijas gaitā jārisina šādi tipi
 \item pieejamajiem ietvariem un bibliotēkām.
 \end{itemize}
 
-\section{Programmēšanas paradigmas}
+\section{Programmēšanas paradigmas} \label{sec:paradigms}
 Ir trīs populāras programmēšanas paradigmas, ko saista ar mākslīgā intelekta un mašīnmācīšanās izpēti un eksperimentiem -- deklaratīvā, funkcionālā un imperatīvā / procedurālā. 
 
-Var teikt, ka funkcionālā programmēšana radās tieši mākslīgā intelekta izpētes dēļ, jo īpaši valoda Lisp, un ar šo nozari tiek saistīta jau praktiski kopš tās pirmsākumiem \cite{hist_lisp}. 
+Var teikt, ka funkcionālā programmēšana radās tieši mākslīgā intelekta izpētes dēļ, jo īpaši valoda Lisp, un ar šo nozari tiek saistīta jau praktiski kopš tās pirmsākumiem ~\cite{hist_lisp}. 
 
 Līdzīgi ir ar deklaratīvo programmēšanu. Tā gan radās mazliet vēlāk, bet arī šīs paradigmas viens no senākajiem un populārākajiem pārstāvjiem, Prolog, jau no pirmsākumiem tiek saistīts ar mākslīgā intelekta izpēti, taču ne tik izteikti kā Lisp.
 
@@ -105,12 +111,64 @@ Imperatīvās paradigmas nozīme mašīnmācīšanās un mākslīgā intelekta i
 
 Jāpiebilst, ka lai arī šī paradigma sākotnēji nespēlēja nopietnu lomu tieši mašīnmācīšanās izpētē, tās viens no pirmajiem pārstāvjiem, FORTRAN, ļāva ļoti efektīvi implementēt atsevišķas, svarīgas tehnoloģiju daļas, piemēram, matricu aritmētiku. Līdzīgas iespējas bija arī jaunākām valodām, C un C++. Tas stipri ietekmēja šīs paradigmas izaugsmi un popularitāti brīdī, kad skaitļošanas resursi kļuva lētāki un pieejamāki.
 
-Mūsdienās vērojams stabils dinamisko, multi-paradigmu valodu lietošanas pieaugums un tradicionālo funcktionālo valodu popularitātes kritums \cite{tiobe_index}. Tādējādi pamazām robeža starp paradigmām izplūst, un vairs nav retums pat viena projekta ietvaros sastapties ar vairākām paradigmām. Pat C++ jaunajā standartā ir spēris soli tuvāk funkcionālajai programmēšanai ieviešot {\em lambda}-izteiksmes \cite{iso_cpp11}.
+Mūsdienās vērojams stabils dinamisko, multi-paradigmu valodu lietošanas pieaugums un tradicionālo funcktionālo valodu popularitātes kritums ~\cite{tiobe_index}. Tādējādi pamazām robeža starp paradigmām izplūst, un vairs nav retums pat viena projekta ietvaros sastapties ar vairākām paradigmām. Pat C++ jaunajā standartā ir spēris soli tuvāk funkcionālajai programmēšanai ieviešot {\em lambda}-izteiksmes ~\cite{iso_cpp11}.
 
 \section{Programmēšanas valodas}
+Kā minēts sadaļā ``\nameref{sec:paradigms}'' ar mākslīgā intelekta un mašīnmācīšanās izpēti ir saistītas, galvenokārt, deklaratīvā, funkcionālā un imperatīvā paradigma. No funkcionālās un deklaratīvās paradigmas tās gan ir vairāk konkrētas valodas, nekā visa paradigma.
 
+\subsection{Lisp}
+Lisp vēsturiskie pirmsākumi meklējami tieši mākslīgā intelekta izpētes jomā ~\cite{hist_lisp}. Tika pat būvēti speciāli, Lisp izpildei optimizēti, datori. Taču ap 1990. gadu Sun, IBM un Apple ražotu personīgo datoru cenas sāka kristies un to veiktspēja strauji augt. Drīz tie varēja izpildīt Lisp programmas ātrāk par specializētajiem Lisp datoriem un to ražošana tika pārtraukta ~\cite[p.~209--210]{crevier_1993}. Tas manāmi samazināja arī Lisp popularitāti un lietojumu visā pasaulē, t. sk. mākslīgā intelekta izpētē.
 
-% \chapter{Risinājums}
+Lisp valodai ir vairākas īpatnības, kas to padara pievilcīgu mākslīgā intelekta izpētei -- piemēram, šajā valodā programmas teksts sastāv no saraksta datu struktūrām un ir tieši tādi paši ievaddati, kā jebkas cits. Tas ļauj viegli rakstīt pašmodificējošas programmas un dažādas citas dinamiskas sistēmas. Minētie apstākļi un valodas piederība funkcionālajai paradigmai padara to par labu izvēli dažādu ``domājošu'' un adaptīvu sistēmu izveidei, taču šis pats apstāklis to padara sākotnēji neērti lietojamu matricu algebrai un intensīvām skaitļošanas operācijām. 
+
+Apskatot tieši mašīnmācīšanās nozari, Lisp biežāk tiek lietots valodas apstrādē (semantiskā analīze) un grafu apstrādē (piemēram, Beijesa tīkli), bet ne tik daudz ar intensīvu skaitļošanu saistītiem eksperimentiem, piemēram, neironu tīkliem.
+
+Par spīti valodas un paradigmas popularitātes kritumam pēc Lisp specializēto datoru ražošanas pārtraukšanas, pēdējos gados tas ir stipri atguvis popularitāti, taču ne tā tradicionālajā Common Lisp implementācijā un formā.
+
+Funkcionālās programmēšanas pēdējā laika augošajai popularitātei pamatā ir divas konkrētas valodas -- Scala un Clojure. Tās abas ir balstītas uz JVM. Tas ļauj tām abām lietot gandrīz visas pastāvošās Java bibliotēkas un ietvarus, tādējādi var lietot funkcionālo programmēšanu un, ja rodas tāda nepieciešamība, izmantot esošu Java bibliotēku vai rakstīt tādu no jauna un integrēt ar sākotnējo valodu.
+
+Scala ir 2004. gadā izlaista multi-paradigmu valoda. Tā ir objekt-orientēta un stingri tipizēta, taču ar uzsvaru uz paralēlismu un spēcīgu funkcionālās programmēšanas atbalstu ~\cite{scala_org}.
+
+Otra valoda, Clojure, ir 2007. gadā izveidota Lisp implementācija. Arī tā tika veidota ar stingru uzsvaru uz paralēlismu, taču tā ir Lisp implementācija, līdz ar to nav stingri tipizēta, visas tās programmas ir ievaddati un tā nav objekt-orientēta ~\cite{clojure_org}.
+
+\subsection{Prolog}
+Prolog ir viena no pirmajām deklaratīvajām formālajā loģikā balstītajām valodām. Tās sākotnējais mērķis bija valodas apstrāde. Arī tai, līdzīgi kā Lisp, bija mēģinājumi konstruēt specializētus datorus, taču masu ražošanu tie tā arī nesasniedza.
+
+Nopietnu popularitāti valoda tā arī nekad nav sasniegusi. Tā kā tā ir deklaratīva, t.i., tās izpilde balstās uz deklarētiem predikātiem un faktiem, parasti programmas tajā ir par lēnu, lai būtu piemērojamas reāliem eksperimentu scenārijiem ar lieliem datu apjomiem.
+
+\subsection{Imperatīvās valodas}
+ Kaut arī šī paradigma ir tikpat veca kā funkcionālā vai deklaratīvā, imperatīvās un procedurālās valodas tieši ar mašīnmācīšanos tiek saistītas salīdzinoši nesen. Galvenais to popularitātes pieaugums sākās līdz ar Lisp norietu un personīgo datoru izmaksu kritumu ap 1990. gadu. Liels šī popularitātes pieauguma iemesls bija pārāka veiktspēja. Tādas valodas, kā FORTRAN, C, C++, ir salīdzinoši viegli pārtulkot mašīninstrkcijās mūsdienu arhitektūrām, un tādēļ parasti tās strādā ievērojami ātrāk par funkcionālajām alternatīvām. Tas ļāva eksperimentēt ar lielākiem datu apjomiem un ātrāk izmēģināt tehnikas, kuras balstījās uz intensīvu skaitļošanu.
+
+Mūsdienās mašīnmācīšanās nozarē imperatīvā programmēšana tiek plaši lietota, bet runājot par imperatīvajām valodām, sīkāk jāizdala divi to paveidi -- vecākās tradicionālās un jaunās, multi-paradigmu.
+
+\subsubsection{Tradicionālās imperatīvās valodas}
+Par tradicionālām var saukt tās imperatīvās programmēšanas valodas, kuras atbalsta tikai imperatīvo pieeju. Tipiskākie un nozīmīgākie pārstāvji ir FORTRAN, C un C++. Lietošanas iemesli mašīnmācīšanās nozarē ir tie paši, kas vēsturiski -- ātrdarbība. Ja nepieciešams maksimāli izmantot ierobežotos datora resursus, iespējams pat rakstīt programmas fragmentus mašīnkodā, šajās valodās to parasti ir iespējams viegli izdarīt. Taču līdz ar lielāko kontroli parasti palielinās arī izstrādes laiks un sarežģītība.
+
+\subsubsection{Multi-paradigmu valodas}  \label{sec:multi_paradigm}
+Šī ir salīdzinoši jauna pieeja, un tai ir strauji augošs piekritēju skaits visās nozarēs, ne tikai zinātnē. Lai arī pirmie pārstāvji parādījās salīdzinoši sen, līdz pat nesenam laikam datoru skaitļošanas jauda nebija gana liela, lai šīm valodām būtu praktisks pielietojums. Šīs valodas neuzspiež programmētājam kādu konkrētu pieeju un ļauj ērti strādāt vairākās, parasti vismaz imperatīvajā un funkcionālajā. Tas, savukārt, parasti samazina nepieciešamo izstrādes laiku. Tipiskie pārstāvji ir Python, Ruby, Scala.
+
+\section{Algoritmu izvēle}
+Šī problēmas daļa ir saistīta ar to, ka pat ja ir izvēlēta kāda konkrēta implementācijas valoda, atsevišķas problēmas daļas var risināt ar dažādiem algoritmiem, starp kuriem nav strikti nosakāms ``labākais'', jo ir vairāki cits citu ietekmējoši izvēles kritēriji un nepieciešams rast kompromisu. 
+
+Tipisks piemērs ir gadījumskaitļu ģeneratori. Ir daudz dažādu algoritmu, kas paredzēti pseido-gadījumskaitļu ģenerēšanai. Tos visus var inicializēt ar sistēmas gadījumskaitļu ģeneratoru, piemēram, \texttt{/dev/random} Linux sistēmās, jo sistēmas gadījumskaitļu ģeneratori ir parasti tiek uzskatīti par kriptogrāfiski drošiem gadījumskaitļu ģeneratoriem. Taču tie nevar ģenerēt pietiekoši garas gadījumskaitļu virknes pietiekoši ātri, tiem ātri sāk trūkt entropijas un nākas lietot pseido-gadījumskaitļu ģeneratorus ~\cite{man_random}.
+
+Taču izvēloties pseido-gadījumskaitļu ģenerēšanas algoritmu ir jāņem vērā vairāki parametri:
+\begin{itemize}
+\item gadījumskaitļu virknes perioda garums;
+\item algoritma ātrdarbība;
+\item gadījumskaitļu varbūtības sadalījums -- ne visiem algoritmiem tā ir vienmērīga.
+\end{itemize}
+
+\section{Ietvaru, bibliotēku un implementāciju izvēle}
+Katram konkrētam algoritmam ir iespējami vairāki implementācijas veidi. Mūsdienās bieži vien izmantotajai bibliotēkai vairs pat nav jābūt rakstītai tajā pašā valodā, kādā rakstīts projekts, kurā tā tiek izmantota. Piemēram, saišu redaktors var savienot C++ kodu ar kompilētu FORTRAN bibliotēku. No Python valodas var izsaukt C bibliotēkas. Scala un Clojure var lietot gandrīz jebko, kas ir palaižams uz JVM, t.i., arī Java bibliotēkas. Mūsdienās šīm starpvalodu robežām ir tieksme kļūt arvien plānākām.
+
+Ņemot vērā šos apstākļus, rodas plašas izvēles iespējas arī tad, ja ir izvēlēts optimāls algoritms. Labs piemērs ir lineārās algebras implementācijas -- tradicionālās BLAS / LAPACK bibliotēkas ir implementētas FORTRAN. Taču dažādu iemeslu -- piemēram, vieglāk saprotamākas programmētāja saskarnes dēļ, bieži ir vērts apsvērt augstāka līmeņa implementācijas, īpaši tad, ja veiktspēja nesamazinās. Var arī atmest BLAS / LAPACK un meklēt pilnīgi jaunas lineārās algebras darbību implementācijas.
+
+\chapter{Risinājums}
+\section{Paradigmas izvēle}
+% Mašīnmācīšanās eksperimentiem
+% Kā minēts ``\nameref{sec:multi_paradigm}'', pastāv valodas, kas atbalsta 
+
 % \chapter{Rezultāti}
 % \chapter{Secinājumi}
 
