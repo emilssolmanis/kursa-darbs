@@ -113,13 +113,13 @@ Jāpiebilst, ka lai arī šī paradigma sākotnēji nespēlēja nopietnu lomu ti
 
 Mūsdienās vērojams stabils dinamisko, multi-paradigmu valodu lietošanas pieaugums un tradicionālo funcktionālo valodu popularitātes kritums ~\cite{tiobe_index}. Tādējādi pamazām robeža starp paradigmām izplūst, un vairs nav retums pat viena projekta ietvaros sastapties ar vairākām paradigmām. Pat C++ jaunajā standartā ir spēris soli tuvāk funkcionālajai programmēšanai ieviešot {\em lambda}-izteiksmes ~\cite{iso_cpp11}.
 
-\section{Programmēšanas valodas}
+\section{Programmēšanas valodas} \label{sec:languages}
 Kā minēts sadaļā ``\nameref{sec:paradigms}'' ar mākslīgā intelekta un mašīnmācīšanās izpēti ir saistītas, galvenokārt, deklaratīvā, funkcionālā un imperatīvā paradigma. No funkcionālās un deklaratīvās paradigmas tās gan ir vairāk konkrētas valodas, nekā visa paradigma.
 
 \subsection{Lisp}
 Lisp vēsturiskie pirmsākumi meklējami tieši mākslīgā intelekta izpētes jomā ~\cite{hist_lisp}. Tika pat būvēti speciāli, Lisp izpildei optimizēti, datori. Taču ap 1990. gadu Sun, IBM un Apple ražotu personīgo datoru cenas sāka kristies un to veiktspēja strauji augt. Drīz tie varēja izpildīt Lisp programmas ātrāk par specializētajiem Lisp datoriem un to ražošana tika pārtraukta ~\cite[p.~209--210]{crevier_1993}. Tas manāmi samazināja arī Lisp popularitāti un lietojumu visā pasaulē, t. sk. mākslīgā intelekta izpētē.
 
-Lisp valodai ir vairākas īpatnības, kas to padara pievilcīgu mākslīgā intelekta izpētei -- piemēram, šajā valodā programmas teksts sastāv no saraksta datu struktūrām un ir tieši tādi paši ievaddati, kā jebkas cits. Tas ļauj viegli rakstīt pašmodificējošas programmas un dažādas citas dinamiskas sistēmas. Minētie apstākļi un valodas piederība funkcionālajai paradigmai padara to par labu izvēli dažādu ``domājošu'' un adaptīvu sistēmu izveidei, taču šis pats apstāklis to padara sākotnēji neērti lietojamu matricu algebrai un intensīvām skaitļošanas operācijām. 
+Lisp valodai ir vairākas īpatnības, kas to padara pievilcīgu mākslīgā intelekta izpētei -- piemēram, šajā valodā programmas teksts sastāv no saraksta datu struktūrām un ir tieši tādi paši ievaddati, kā jebkas cits. Tas ļauj viegli rakstīt pašmodificējošas programmas un dažādas citas dinamiskas sistēmas. Minētie apstākļi un valodas piederība funkcionālajai paradigmai padara to par labu izvēli dažādu ``domājošu'' un adaptīvu sistēmu izveidei, taču šis pats apstāklis to padara neērti lietojamu matricu algebrai un intensīvām skaitļošanas operācijām, ja to dara bez speciālām optimizācijām.
 
 Apskatot tieši mašīnmācīšanās nozari, Lisp biežāk tiek lietots valodas apstrādē (semantiskā analīze) un grafu apstrādē (piemēram, Beijesa tīkli), bet ne tik daudz ar intensīvu skaitļošanu saistītiem eksperimentiem, piemēram, neironu tīkliem.
 
@@ -166,8 +166,11 @@ Katram konkrētam algoritmam ir iespējami vairāki implementācijas veidi. Mūs
 
 \chapter{Risinājums}
 \section{Paradigmas izvēle}
-% Mašīnmācīšanās eksperimentiem
-% Kā minēts ``\nameref{sec:multi_paradigm}'', pastāv valodas, kas atbalsta 
+Pašās paradigmās nav ierobežojumu, kas principiāli liegtu izmantot kādu konkrētu paradigmu mašīnmācīšanās eksperimentiem. Taču kā aprakstīts sadaļā ``\nameref{sec:languages}'', deklaratīvā paradigma un Prolog nav derīga praktiskiem mašīnmācīšanās eksperimentiem, ja datu apjoms ir liels. Tādējādi, izvēle ir starp funkcionālo un imperatīvo.
+
+Katrai ir savas priekšrocības. Funkcionālās paradigmas pieeja izvairās no programmas stāvokļa uzglabāšanas un maināmiem objektiem, kas ievērojami atvieglo atkļūdošanu, testēšanu un padara to vieglāk paralelizējamu. Tradicionālo imperatīvo valodu galvenā priekšrocība parasti ir to ātrdarbība, bet arī iespēja glabāt stāvokli reizēm ir nepieciešama un ir labi, ja to nav jāemulē.
+
+Kā redzams, neviena pieeja nav perfekta, katrai ir savi trūkumi. Tādēļ var lietot multi-paradigmu valodas un izmantot labāko no abām. To lielākais trūkums -- tā kā tās parasti ir vāji tipizētas un, vismaz kādā līmenī, interpretējamas, tās parasti ir arī vismaz mazliet lēnākas par tradicionālajām imperatīvajām. Kā redzams praktiskos eksperimentos, veiktspējas atšķirības nav ļoti nozīmīgas un tās nebūtu jāpieņem par izšķirošo faktoru mašīnmācīšanās eksperimentu izstrādē \cite{bench_game}.
 
 % \chapter{Rezultāti}
 % \chapter{Secinājumi}
