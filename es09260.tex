@@ -11,18 +11,8 @@
 \setdefaultlanguage{latvian}
 \setotherlanguages{english,russian}
 
-% bibtex
-\usepackage[pdfauthor={Emīls Šolmanis},%
-pdftitle={Tehnoloģiju izvēle mašīnmācīšanās eksperimentu veikšanai},%
-pdfkeywords={machine learning, choice of technology, software engineering},%
-hidelinks=true,%
-pagebackref=false,%
-xetex]{hyperref}
-\hypersetup{colorlinks=false}
-\urlstyle{same}
-\usepackage{cite}
-
 % graphics
+\usepackage{pgfplots}
 \usepackage{graphicx}
 \DeclareGraphicsExtensions{.png,.eps}
 
@@ -34,6 +24,18 @@ xetex]{hyperref}
 % toc
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
+
+% bibtex
+\usepackage[pdfauthor={Emīls Šolmanis},%
+pdftitle={Tehnoloģiju izvēle mašīnmācīšanās eksperimentu veikšanai},%
+pdfkeywords={machine learning, choice of technology, software engineering},%
+hidelinks=true,%
+pagebackref=false,%
+xetex]{hyperref}
+\hypersetup{colorlinks=false}
+\urlstyle{same}
+\usepackage{cite}
+
 
 %% \usepackage{amsmath}
 %% \usepackage{amssymb}
@@ -165,19 +167,45 @@ Katram konkrētam algoritmam ir iespējami vairāki implementācijas veidi. Mūs
 Ņemot vērā šos apstākļus, rodas plašas izvēles iespējas arī tad, ja ir izvēlēts optimāls algoritms. Labs piemērs ir lineārās algebras implementācijas -- tradicionālās BLAS / LAPACK bibliotēkas ir implementētas FORTRAN. Taču dažādu iemeslu -- piemēram, vieglāk saprotamākas programmētāja saskarnes dēļ, bieži ir vērts apsvērt augstāka līmeņa implementācijas, īpaši tad, ja veiktspēja nesamazinās. Var arī atmest BLAS / LAPACK un meklēt pilnīgi jaunas lineārās algebras darbību implementācijas.
 
 \chapter{Risinājums}
-\section{Paradigmas izvēle}
+\section{Paradigmas izvēle} \label{sec:paradigm_choice}
 Pašās paradigmās nav ierobežojumu, kas principiāli liegtu izmantot kādu konkrētu paradigmu mašīnmācīšanās eksperimentiem. Taču kā aprakstīts sadaļā ``\nameref{sec:languages}'', deklaratīvā paradigma un Prolog nav derīga praktiskiem mašīnmācīšanās eksperimentiem, ja datu apjoms ir liels. Tādējādi, izvēle ir starp funkcionālo un imperatīvo.
 
 Katrai ir savas priekšrocības. Funkcionālās paradigmas pieeja izvairās no programmas stāvokļa uzglabāšanas un maināmiem objektiem, kas ievērojami atvieglo atkļūdošanu, testēšanu un padara to vieglāk paralelizējamu. Tradicionālo imperatīvo valodu galvenā priekšrocība parasti ir to ātrdarbība, bet arī iespēja glabāt stāvokli reizēm ir nepieciešama un ir labi, ja to nav jāemulē.
 
-Kā redzams, neviena pieeja nav perfekta, katrai ir savi trūkumi. Tādēļ var lietot multi-paradigmu valodas un izmantot labāko no abām. To lielākais trūkums -- tā kā tās parasti ir vāji tipizētas un, vismaz kādā līmenī, interpretējamas, tās parasti ir arī vismaz mazliet lēnākas par tradicionālajām imperatīvajām. Kā redzams praktiskos eksperimentos \ref{fig:bench_game} ~\cite{bench_game}, veiktspējas atšķirības nav ļoti nozīmīgas un tās nebūtu jāpieņem par izšķirošo faktoru mašīnmācīšanās eksperimentu izstrādē.
+Kā redzams, neviena pieeja nav perfekta, katrai ir savi trūkumi. Tādēļ var lietot multi-paradigmu valodas un izmantot labāko no abām. To lielākais trūkums -- tā kā tās parasti ir vāji tipizētas un, vismaz kādā līmenī, interpretējamas, tās parasti ir arī vismaz mazliet lēnākas par tradicionālajām imperatīvajām. 
 
+Praktiskie eksperimenti \ref{fig:bench_game} ~\cite{bench_game} rāda, ka kopējās veiktspējas atšķirības nav ļoti nozīmīgas un tās nebūtu jāpieņem par izšķirošo faktoru mašīnmācīšanās eksperimentu izstrādē. Ir redzama tendence, ka imperatīvās ir ātrākas par funkcionālajām un funkcionālās ir ātrākas par multi-paradigmu, taču pat lēnākās valodas ir pietiekami ātras praktiskiem eksperimentiem. Jo īpaši tādēļ, ka parasti no augstāka līmeņa valodām ir iespējams izsaukt zemāka līmeņa implementācijas. Tādējādi var, piemēram, rakstīt programmas loģiku vai grafisko saskarni Python, bet matricu algebru tik un tā rēķināt ar kādu C vai FORTRAN rakstītu BLAS implementāciju.
 \begin{figure}
   \centering
   \includegraphics{img/bench_game}
   \caption{Valodu veiktspējas salīdzinājums}
   \label{fig:bench_game}
 \end{figure}
+
+\section{Valodas izvēle}
+Kā tika parādīts sadaļā ``\nameref{sec:paradigm_choice}'', paradigmai nav fundamentālas nozīmes un galvenie optimizācijas parametri šajā jomā ir pieejamās iespējas un prognozējamā darbietilpība. Tā kā katram konkrētam eksperimentam funkcijpunktu skaits, riski un citi faktori ir konstanti, vienīgais mainīgais ir koda rindiņu skaits viena funkcijpunkta izpildei.
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      symbolic x coords={C, FORTRAN, C++, LISP, Java, Perl, Haskell},
+      xticklabel style={inner sep=0pt, anchor=north east, rotate=45},
+      xtick=data]
+      \addplot[ybar,fill=blue] coordinates {
+        (C,157)
+        (FORTRAN,119)
+        (C++,66)
+        (LISP,64)
+        (Java,54)
+        (Perl,50)
+        (Haskell,38)
+      };
+    \end{axis}
+  \end{tikzpicture}  
+  \caption[Caption for LOF]{Koda rindiņu skaits funkcijpunkta izpildei \footnotemark \cite{qsm_sloc_fp} \cite{mayes_sloc_fp}}
+  \label{fig:sloc_per_fp}
+\end{figure}
+\footnotetext{Izmantotas vidējās vērtības no abiem avotiem. Ja dati bijuši pieejami tikai vienā avotā, izmantoti tie.}
 
 % \chapter{Rezultāti}
 % \chapter{Secinājumi}
