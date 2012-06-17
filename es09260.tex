@@ -25,6 +25,9 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
+% formatting
+\usepackage{footnote}
+
 % bibtex
 \usepackage[pdfauthor={Emīls Šolmanis},%
 pdftitle={Tehnoloģiju izvēle mašīnmācīšanās eksperimentu veikšanai},%
@@ -91,14 +94,13 @@ Darbā tiek pieņemts, ka uzdevuma implementācijas gaitā jārisina šādi tipi
 \item pseido-gadījumskaitļu ģenerēšana;
 \item lineārā algebra, uzsvars uz matricu / vektoru aritmētiku;
 \item paralēlā programmēšana;
-\item rezultātu grafēšanas iespējas, grafiku zīmēšana.
 \end{itemize}
 
 Šajā darbā tiek apskatīta izvēle starp:
 \begin{itemize}
 \item programmēšanas paradigmām;
-\item programmēšanas valodām, ja nepieciešams, ņemot vērā dažādas to implementācijas;
-\item vienas problēmas dažādiem risināšanas algoritmiem;
+\item programmēšanas valodām;
+\item vienas problēmas dažādiem risināšanas algoritmiem un / vai pieejām;
 \item pieejamajiem ietvariem un bibliotēkām.
 \end{itemize}
 
@@ -184,6 +186,12 @@ Praktiskie eksperimenti \ref{fig:bench_game} ~\cite{bench_game} rāda, ka kopēj
 
 \section{Valodas izvēle}
 Kā tika parādīts sadaļā ``\nameref{sec:paradigm_choice}'', paradigmai nav fundamentālas nozīmes un galvenie optimizācijas parametri šajā jomā ir pieejamās iespējas un prognozējamā darbietilpība. Tā kā katram konkrētam eksperimentam funkcijpunktu skaits, riski un citi faktori ir konstanti, vienīgais mainīgais ir koda rindiņu skaits viena funkcijpunkta izpildei.
+
+Kā redzams grafikā, koda rindiņu skaitam funkcijpunkta izpildei ir dilstoša tendence pārejot no tradicionālajām imperatīvajām valodām (C, FORTRAN) uz funkcionālajām vai multi-paradigmu. 
+
+Tā kā šīs konstantes tiek iegūtas no esoša koda statistiskas analīzes, bieži vien jaunām valodām tās nav atrodamas. Tās nav atrodamas, piemēram, Clojure, Scala un Python. Tā kā Clojure ir jauns, moderns Lisp implementācijas paveids, ir prātīgi pieņemt ka rindiņu skaits funkcijpunktam tai ir mazāks vai vienāds ar šo pašu konstanti valodai Lisp. Līdzību koda struktūrā un pieejā var saskatīt arī starp valodām Perl un Python, tāpēc pieņemsim, ka Python konstante ir mazāka vai vienāda ar Perl konstanti. Grūtāk ir ar valodu Scala. Tā nav tiešā veidā pielīdzināma nevienai no apskatītajām, taču var pieņemt, ka tās konstante ir strikti mazāka par Java un ir robežās starp Haskell un Java.
+
+Tādējādi ir parādīts, ka, no prognozējamās darbietilpības viedokļa, izdevīgi ir izvēlēties kādu no funkcionālajām vai multi-paradigmu valodām.
 \begin{figure}
   \centering
   \begin{tikzpicture}
@@ -202,10 +210,60 @@ Kā tika parādīts sadaļā ``\nameref{sec:paradigm_choice}'', paradigmai nav f
       };
     \end{axis}
   \end{tikzpicture}  
-  \caption[Caption for LOF]{Koda rindiņu skaits funkcijpunkta izpildei \footnotemark \cite{qsm_sloc_fp} \cite{mayes_sloc_fp}}
+  \caption[Koda rindiņas funkcijpunktam]{Koda rindiņu skaits funkcijpunkta izpildei \footnotemark \cite{qsm_sloc_fp} \cite{mayes_sloc_fp}}
   \label{fig:sloc_per_fp}
 \end{figure}
 \footnotetext{Izmantotas vidējās vērtības no abiem avotiem. Ja dati bijuši pieejami tikai vienā avotā, izmantoti tie.}
+
+\section{Algoritmu un pieeju izvēle}
+Tiek apskatītas četras tipiskas mašīnmācīšanās eksperimentu implementācijas sastāvdaļas -- pseido-gadījumskaitļu ģenerēšana, lineārā algebra, paralēlā programmēšana. No tām:
+\begin{itemize}
+\item pseido-gadījumskaitļu ģenerēšanai ir daudz dažādu algoritmu;
+\item lineārajai algebrai parasti pieņemts izmantot BLAS / LAPACK, bet ir vairākas implementācijas;
+\item paralēlajai programmēšanai parasti būtiskas atšķirības ir tikai starp valodām;
+\end{itemize}
+
+\subsection{Pseido-gadījumskaitļu ģenerēšana}
+Izvēloties algoritmu gadījumskaitļu ģenerēšanai mašīnmācīšanās eksperimentiem ir pieļaujams būtisks problēmas atvieglojums -- tam nav obligāti jābūt kriptogrāfiski drošam.
+
+Mūsdienās galvenokārt ir sastopamas četras pseido-gadījumskaitļu ģeneratoru klases:
+\begin{itemize}
+\item lineāri kongruenciāli;
+\item reizināšana ar pārnesi;
+\item aizturētie Fibonači (lagged Fibonacci);
+\item ``Mersenne Twister''.
+\end{itemize}
+
+Lai pseido-gadījumskaitļu ģenerēšanas algoritmu varētu lietot mašīnmācīšanās eksperimentiem, tam jābūt vienmērīgi sadalītam, ātram, ar garu periodu un kvalitatīvam -- bez korelācijām. Atmiņas patēriņu šajā gadījumā var neņemt vērā, jo mašīnmācīšanās eksperimentu veikšanai būs nepieciešams daudz vairāk atmiņas, nekā patērē apskatāmie algoritmi.
+
+Lineāri kongruenciālie algoritmi nav derīgi mašīnmācīšanās eksperimentiem, jo tiem ir zema kvalitāte, to ģenerēto skaitļu virknēs ir korelācijas ~\cite{rng_miller_park}. Pārējām trim klasēm šādu problēmu nav.
+
+Reizināšana ar pārnesi ir Džordža Marsaglias 1991. gadā konstruēts algoritms ~\cite{rng_new_marsaglia}. ``Mersenne Twister'' ir jaunāka algoritmu klase, ko 1998. gadā konstruēja Matsumoto un Nišimura ~\cite{rng_mersenne}. Aizturētajiem Fibonači algoritmiem var rasties problēmas, ja tos nepareizi inicializē. Visām trim klasēm ir iespējami pietiekami gari periodi, lai tie nebūtu nozīmīgs faktors algoritma izvēlē. Vienīgās atšķirības varētu būt to ātrdarbībā. 
+
+\begin{figure}
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      symbolic x coords={MT Python 3 random, MT C++11 std::random, MT C++ Boost, LF C++ Boost, LF (SWC) C++11 std::random, CMWC C++ Self-implemented},
+      xticklabel style={inner sep=0pt, anchor=north east, rotate=45},
+      xtick=data]
+      \addplot[ybar,fill=blue] coordinates {
+        (MT Python 3 random, 16.722)
+        (MT C++11 std::random, 8.325)
+        (MT C++ Boost, 8.102)
+        (LF C++ Boost, 7.057)
+        (LF (SWC) C++11 std::random, 4.878)
+        (CMWC C++ Self-implemented, 2.711)
+     };
+    \end{axis}
+  \end{tikzpicture}  
+  \caption[Gadījumskaitļu ģeneratoru ātrdarbība]{Sekundes $10^9$ gadījumskaitļu ģenerēšanai}
+  \label{fig:rng_performance}
+\end{figure}
+
+Eksperimentāli iegūtie rezultāti rāda, ka ātrākā ir reizināšana ar pārnesi $t \approx 2.7$, aizturētā Fibonači metode ir mazliet lēnāka $t \approx 6$ un ``Mersenne Twister'' ir lēnākā $t \approx 8.2$. Taču šie ir laiki, kas nepieciešami lai uzģenerētu $10^9$ gadījumskaitļus. Tas nozīmē, ka laiks, kas nepieciešams, lai ar jebkuru no algoritmiem uzģenerētu gadījumskaitli ir dažas nanosekundes.
+
+Arī Python tika implementēta reizināšana ar pārnesi, taču tās laiks jau pie $10^7$ skaitļu ģenerēšanas bija $\approx 58 s$. Tas skaidrojams ar to, ka pēc noklusējuma Python lieto ``Mersenne Twister'' implementāciju, kas rakstīta C.
 
 % \chapter{Rezultāti}
 % \chapter{Secinājumi}
