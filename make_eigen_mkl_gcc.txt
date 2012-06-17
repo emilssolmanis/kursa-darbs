@@ -1,0 +1,1 @@
+g++ -DNUM_IT=1000 -DMKL_ILP64 -o eigen_mkl_gcc eigen_mkl.cpp -DNDEBUG=1 -O3 -I /opt/intel/mkl/include -I /usr/local/include/eigen3 -fopenmp -Wl,--start-group  /opt/intel/mkl/lib/intel64/libmkl_gnu_thread.a  /opt/intel/mkl/lib/intel64/libmkl_core.a /opt/intel/mkl/lib/intel64/libmkl_intel_ilp64.a -Wl,--end-group -lpthread

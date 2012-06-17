@@ -1,0 +1,1 @@
+icpc -DNUM_IT=100 -o eigen_mkl eigen_mkl.cpp -DMKL_ILP64 -DNDEBUG=1 -O3  -I /opt/intel/mkl/include -I /usr/local/include/eigen3 -Wl,--start-group /opt/intel/mkl/lib/intel64/libmkl_intel_ilp64.a /opt/intel/mkl/lib/intel64/libmkl_intel_thread.a /opt/intel/mkl/lib/intel64/libmkl_core.a -Wl,--end-group -openmp -lpthread -lm

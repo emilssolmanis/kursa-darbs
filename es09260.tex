@@ -77,7 +77,7 @@ Tiek pieņemts, ka visām izvēlētajām tehnoloģijām jābūt maksimāli platf
 
 Darbā apskatītie tehnoloģiju aspekti ir programmēšanas valoda, pseido-gadījumskaitļu ģenerēšana, lineārā algebra un paralēlās programmēšanas iespējas.
 
-Apskatāmās problēmas izmērs neļauj apskatīt visas iespējamās alternatīvas, tādēļ problēmas risināšanas gaitā tiks apskatītas tikai populārākās un / vai nozīmīgākās iespējas. Tā kā ir hipotēze, ka kāda no tehnoloģijām ir labāka par citām, ir nepieciešami kritēriji, pēc kā tehnoloģiju vērtēt. Problēmas risināšanas gaitā, dažādām tehnoloģijām tika eksperimentāli noteikta veiktspēja un aptuveni aprēķināta prognozētā darbietilpība. Tehnoloģijām skalā no 0 līdz 10 tika subjektīvi novērtēts nepieciešamais sākotnējais darbs un pieejamās dokumentācijas kvalitāte.
+Apskatāmās problēmas izmērs neļauj apskatīt visas iespējamās alternatīvas, tādēļ problēmas risināšanas gaitā tiks apskatītas tikai populārākās un / vai nozīmīgākās iespējas. Tā kā ir hipotēze, ka kāda no tehnoloģijām ir labāka par citām, ir nepieciešami kritēriji, pēc kā tehnoloģiju vērtēt. Problēmas risināšanas gaitā, dažādām tehnoloģijām tika eksperimentāli noteikta veiktspēja un aptuveni izvērtēta prognozētā darbietilpība.
 
 Darba rezultāti parāda, ka hipotēze ir pareiza. Eksistē tehnoloģijas, kas ir vairāk piemērotas mašīnmācīšanās eksperimentiem, nekā citas. Rezultāti pierāda, ka mūsdienu apstākļos vislabāk ir izvēlēties kādu no brīvi tipizētajām, dinamiskajām valodām, kurām vajadzības gadījumā ir iespēja izsaukt gatavas zemāka līmeņa bibliotēku funkcijas (piemēram, kādu BLAS pakotni).
 
@@ -101,7 +101,6 @@ Darbā tiek pieņemts, ka uzdevuma implementācijas gaitā jārisina šādi tipi
 \item programmēšanas paradigmām;
 \item programmēšanas valodām;
 \item vienas problēmas dažādiem risināšanas algoritmiem un / vai pieejām;
-\item pieejamajiem ietvariem un bibliotēkām.
 \end{itemize}
 
 \section{Programmēšanas paradigmas} \label{sec:paradigms}
@@ -196,6 +195,7 @@ Tādējādi ir parādīts, ka, no prognozējamās darbietilpības viedokļa, izd
   \centering
   \begin{tikzpicture}
     \begin{axis}[
+      ymin=0,
       symbolic x coords={C, FORTRAN, C++, LISP, Java, Perl, Haskell},
       xticklabel style={inner sep=0pt, anchor=north east, rotate=45},
       xtick=data]
@@ -239,11 +239,11 @@ Lai pseido-gadījumskaitļu ģenerēšanas algoritmu varētu lietot mašīnmāc�
 Lineāri kongruenciālie algoritmi nav derīgi mašīnmācīšanās eksperimentiem, jo tiem ir zema kvalitāte, to ģenerēto skaitļu virknēs ir korelācijas ~\cite{rng_miller_park}. Pārējām trim klasēm šādu problēmu nav.
 
 Reizināšana ar pārnesi ir Džordža Marsaglias 1991. gadā konstruēts algoritms ~\cite{rng_new_marsaglia}. ``Mersenne Twister'' ir jaunāka algoritmu klase, ko 1998. gadā konstruēja Matsumoto un Nišimura ~\cite{rng_mersenne}. Aizturētajiem Fibonači algoritmiem var rasties problēmas, ja tos nepareizi inicializē. Visām trim klasēm ir iespējami pietiekami gari periodi, lai tie nebūtu nozīmīgs faktors algoritma izvēlē. Vienīgās atšķirības varētu būt to ātrdarbībā. 
-
 \begin{figure}
   \centering
   \begin{tikzpicture}
     \begin{axis}[
+      ymin=0,
       symbolic x coords={MT Python 3 random, MT C++11 std::random, MT C++ Boost, LF C++ Boost, LF (SWC) C++11 std::random, CMWC C++ Self-implemented},
       xticklabel style={inner sep=0pt, anchor=north east, rotate=45},
       xtick=data]
@@ -257,15 +257,71 @@ Reizināšana ar pārnesi ir Džordža Marsaglias 1991. gadā konstruēts algori
      };
     \end{axis}
   \end{tikzpicture}  
-  \caption[Gadījumskaitļu ģeneratoru ātrdarbība]{Sekundes $10^9$ gadījumskaitļu ģenerēšanai}
+  \caption[Gadījumskaitļu ģeneratoru ātrdarbība]{Gadījumskaitļu ģenerēšanas ātrdarbība, sekundes $10^9$ gadījumskaitļu ģenerēšanai}
+  Rezultāti iegūti ar GCC 4.7.0.
   \label{fig:rng_performance}
 \end{figure}
-
 Eksperimentāli iegūtie rezultāti rāda, ka ātrākā ir reizināšana ar pārnesi $t \approx 2.7$, aizturētā Fibonači metode ir mazliet lēnāka $t \approx 6$ un ``Mersenne Twister'' ir lēnākā $t \approx 8.2$. Taču šie ir laiki, kas nepieciešami lai uzģenerētu $10^9$ gadījumskaitļus. Tas nozīmē, ka laiks, kas nepieciešams, lai ar jebkuru no algoritmiem uzģenerētu gadījumskaitli ir dažas nanosekundes.
 
 Arī Python tika implementēta reizināšana ar pārnesi, taču tās laiks jau pie $10^7$ skaitļu ģenerēšanas bija $\approx 58 s$. Tas skaidrojams ar to, ka pēc noklusējuma Python lieto ``Mersenne Twister'' implementāciju, kas rakstīta C.
 
-% \chapter{Rezultāti}
+\section{Lineārā algebra}
+Lineārās algebras operācijām ir skaidri zināmi labākie algoritmi. Atliek tikai izvēlēties implementāciju. Ļoti populāras ir BLAS / LAPACK pakotnes. Parasti arī visi augstāka līmeņa lineārās algebras ietvari ir tikai ietinēji kādai BLAS / LAPACK pakotnei, piemēram, valodas Python zinātniskās skaitļošanas ietvars NumPy arī izmanto BLAS / LAPACK pakotnes. Valodai C++ ir viens salīdzinoši plaši lietots izņēmums, ietvars ``Eigen'' ~\cite{eigen_org}.  Izņemot atsauces implementāciju, kas rakstīta FORTRAN, populārākās implementācijas ir ATLAS un Intel MKL.
+
+Redzams, ka ātrākā implementācija ir Intel MKL, taču ATLAS tālu neatpaliek.
+\begin{figure}[!hta]
+  \centering
+  \begin{tikzpicture}
+    \begin{axis}[
+      ymin=0,
+      symbolic x coords={ICC Eigen, GCC Eigen, GCC ATLAS, ICC ATLAS, GCC MKL, ICC MKL},
+      xticklabel style={inner sep=0pt, anchor=north east, rotate=45},
+      xtick=data]
+      \addplot[ybar,fill=blue] coordinates {
+        (ICC Eigen, 48.7)
+        (GCC Eigen, 45.1)
+        (GCC ATLAS, 32.4)
+        (ICC ATLAS, 32.3)
+        (GCC MKL, 27.5)
+        (ICC MKL, 26.5)
+     };
+    \end{axis}
+  \end{tikzpicture}  
+  \caption[Lineārās algebras pakotņu ātrdarbība]{Lineārās algebras pakotņu ātrdarbība, sekundes lai 1000 reizes sareizinātu divas 1024 x 1024 matricas}
+  \label{fig:blas_performance}
+\end{figure}
+
+Jāpiebilst, ka parasti augstāka līmeņa ietvari piedāvā plašākas iespējas, nekā pieejamas tikai BLAS / LAPACK pakotnēs, un tiem ir daudz saprotamāka programmētāja saskarne, tādēļ tie ir labāka izvēle.
+
+\section{Paralēlā programmēšana}
+Paralēlā programmēšana ir svarīga mašīnmācīšanās eksperimentu sastāvdaļa, jo ne vienmēr visas algoritmu daļas var efektīvi izteikt tikai matricu un vektoru reizinājumiem. Taču bieži šīs daļas ir atkarīgas tikai no kāda ārēja faktora un savstarpēji ir neatkarīgas, t.i., ir vajadzība piemērot kādu funkciju katram matricas vai vektora elementam.
+
+Sinhronizācijas apsvērumu izraistīts veiktspējas samazinājums ir uzskatāms par niecīgu, attiecībā pret veicamo darbu, tādēļ paralelizācija tiek aplūkota no darbietilpības viedokļa.
+
+\subsection{Paralalelizācija funkcionālajās valodās}
+Funkcionālo valodu paralelizācijas iespējas netiek apskatītas atsevišķi, jo mehānismi ir ļoti līdzīgi un ir vienkārši -- ir virsfunkcija, kas iterējoties pa datu struktūru katram tās elementam pielieto apakšfunkciju. Katra apakšfunkcijas piemērošanas instance tehniski notiek jaunā pavedienā. Vienīgā nelielā problēma ir atgrieztos rezultātus jaunajā datu struktūrā ievietot pareizajā secībā.
+
+\subsection{C / C++ / FORTRAN}
+Arī valodās C, C++ un FORTRAN paralelizācija ir ļoti vienkārša, jo ir pieejams OpenMP. OpenMP standarts ļauj ar vienu vai dažām koda rindām automātiski paralelizēt ciklu izpildi. Piemēram, C un C++ bieži pietiek tikai virs for-cikla ievietot \texttt{\#pragma omp parallel for}, lai tas automātiski izpildītos uz visiem procesora kodoliem. OpenMP pats nosaka procesora kodolu skaitu.
+
+Jāpiebilst, ka OpenMP ir tikai standarts, tā implementēšana ir kompilatora ziņā. Taču praksē tā nav problēma, jo GCC, MSVC un ICC šo standartu atbalsta.
+
+\subsection{Citi}
+Java, Python un ļoti daudzu citu valodu paralelizācijas modelis ir līdzīgs. Tiek veidots pavediens, tam pievienota izpildāmā funkcija un pēc laika iegūtais rezultāts tiek apstrādāts. Tam ir augstāka prognozētā darbietilpība kā citām minētajām valodām, jo nepieciešamais koda apjoms ir lielāks.
+
+\chapter{Rezultāti}
+Iegūtie rezultāti apstiprina izvirzīto hipotēzi. Izvēloties tehnoloģijas mašīnmācīšanās eksperimentu veikšanai daži ieguvumi ir ievērojami lielāki par tiem atbilstošajiem zaudējumiem.
+
+Tas ir iespējams tādēļ, ka strauji aug datoru skaitļošanas jauda. Saskaņā ar Mūra likumu ~\cite{moore_cramming}, datoru skaitļošanas jauda dubultojas katrus 18 mēnešus. Tādējādi, pat ja kāds risinājums ir vairākus desmitus reižu lēnāks par ātrāko iespējamo, tas parasti joprojām ir derīgs praktiskiem eksperimentiem.
+
+Darba gaitā tika parādīts, ka lielākās optimizācijas iespējas mūsdienu programmatūras izstrādes vidē ir iespējamas saistībā ar projekta darbietilpību, nevis veiktspēju. Pareizi izvēloties programmēšanas valodu, stilu un izmantojamos līdzekļus, koda apjoms -- un attiecīgi, arī izstrādei patērētais laiks -- var būt pat trīs līdz četras reizes mazāks.
+
+Iegūtie rezultāti parāda arī to, ka visi darbā apskatītie pseido-gadījumskaitļu ģeneratori ir pietiekami ātri praktiskai lietošanai. Tika parādīts, ka mūsdienās plaši lietotais ``Mersenne Twister'' algoritms ir pats lēnākais, taču laiks, kas nepieciešams gadījumskaitļa ģenerēšanai ir mērāms dažās nanosekundēs, tādēļ maz ticams, ka pseido-gadījumskaitļu ģeneratora algoritma izvēle būtiski ietekmēs sistēmas veiktspēju. Laiks, kas būtu jāpatērē, lai implementētu izvēlētajā valodā pēc noklusējuma neesošu ģeneratora algoritmu būtu nesalīdzināmi lielāks par to, kas tiktu zaudēts lietojot par dažām nanosekundēm lēnāko algoritmu.
+
+Tika parādīts arī tas, ka mūsdienās labākā pieejamā lineārās algebras pakotne ir Intel MKL. Taču tā kā tas ir maksas produkts, tika apskatīti alternatīvi risinājumi. Eksperimentāli tika parādīts, ka ATLAS pakotne būtiski neatpaliek no Intel MKL. Taču parasti darbietilpības ekonomijas labad tās vajadzētu lietot tikai kā skaitļošanas implementāciju augstāka līmeņa ietvariem.
+
+Apskatot paralelizācijas iespējas dažādām valodām tika atklāts, ka ir valodas, kuras paralelizēt ir pavisam vienkārši, un valodas, kuras paralelizēt ir salīdzinoši sarežģīti. Viduvēja risinājuma nav. Tādēļ no programmas paralelizācijas viedokļa, izdevīgi lietot ir kādu no funkcionālajām valodām vai arī C, C++ vai FORTRAN.
+
 % \chapter{Secinājumi}
 
 \literatura{es09260}

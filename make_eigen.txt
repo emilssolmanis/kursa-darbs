@@ -1,0 +1,1 @@
+icpc -DNUM_IT=100 -DNDEBUG -O3 -openmp -I /usr/local/include/eigen3 -o eigen eigen.cpp
