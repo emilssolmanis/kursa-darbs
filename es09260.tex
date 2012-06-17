@@ -27,6 +27,7 @@
 
 % formatting
 \usepackage{footnote}
+\usepackage{longtable}
 
 % bibtex
 \usepackage[pdfauthor={Emīls Šolmanis},%
@@ -67,6 +68,19 @@ xetex]{hyperref}
 \end{abstract-en}
 
 \tableofcontents
+
+\specnodala{Apzīmējumu saraksts}
+\setlength\LTleft{0pt}
+\setlength\LTright{0pt}
+\begin{longtable}{| c | c |}
+  \hline
+  \textbf{Apzīmējums} & \textbf{Atšifrējums}\\ 
+  \endhead
+
+  \hline
+  JVM & Java Virtuālā Mašīna\\
+  \hline
+\end{longtable}
 
 \specnodala{Ievads}
 Darbā apskatītas un salīdzinātas mūsdienās pieejamās tehnoloģijas mašīnmācīšanās eksperimentu implementēšanai. Hipotēze -- dažas no tām ir labākas un vairāk piemērotas šim mērķim par citām.
@@ -309,7 +323,7 @@ Jāpiebilst, ka OpenMP ir tikai standarts, tā implementēšana ir kompilatora z
 \subsection{Citi}
 Java, Python un ļoti daudzu citu valodu paralelizācijas modelis ir līdzīgs. Tiek veidots pavediens, tam pievienota izpildāmā funkcija un pēc laika iegūtais rezultāts tiek apstrādāts. Tam ir augstāka prognozētā darbietilpība kā citām minētajām valodām, jo nepieciešamais koda apjoms ir lielāks.
 
-\chapter{Rezultāti}
+\specnodala{Rezultāti}
 Iegūtie rezultāti apstiprina izvirzīto hipotēzi. Izvēloties tehnoloģijas mašīnmācīšanās eksperimentu veikšanai daži ieguvumi ir ievērojami lielāki par tiem atbilstošajiem zaudējumiem.
 
 Tas ir iespējams tādēļ, ka strauji aug datoru skaitļošanas jauda. Saskaņā ar Mūra likumu ~\cite{moore_cramming}, datoru skaitļošanas jauda dubultojas katrus 18 mēnešus. Tādējādi, pat ja kāds risinājums ir vairākus desmitus reižu lēnāks par ātrāko iespējamo, tas parasti joprojām ir derīgs praktiskiem eksperimentiem.
@@ -322,7 +336,22 @@ Tika parādīts arī tas, ka mūsdienās labākā pieejamā lineārās algebras 
 
 Apskatot paralelizācijas iespējas dažādām valodām tika atklāts, ka ir valodas, kuras paralelizēt ir pavisam vienkārši, un valodas, kuras paralelizēt ir salīdzinoši sarežģīti. Viduvēja risinājuma nav. Tādēļ no programmas paralelizācijas viedokļa, izdevīgi lietot ir kādu no funkcionālajām valodām vai arī C, C++ vai FORTRAN.
 
-% \chapter{Secinājumi}
+\specnodala{Secinājumi}
+Svarīgākais apstāklis, pēc kura izvēlēties tehnoloģijas mašīnmācīšanās algoritmu implementācijai ir projekta prognozējamā darbietilpība. Veiktspējas atšķirības praktiskos apstākļos ir niecīgas, salīdzinot ar ātrākā risinājuma implementācijai patērēto laiku.
+
+Lai optimizētu darbietilpību, pareizi ir izvēlēties kādu no pieejamajām multi-paradigmu valodām, kurām ir iespēja vajadzības gadījumā atsevišķās vietās izsaukt ātrākas, zemāka līmeņa implementācijas. No darbā minētajām, tādas ir Python un Scala. Python var izsaukt jebkuru ārēju C bibliotēku. Scala ir balstīta uz JVM, un tai ir pieejams jebkas, kas strādā uz JVM -- t.sk., Java ietvari un bibliotēkas.
+
+Visvieglāk paralelizējamas ir funkcionālās valodas un C / C++ / FORTRAN.
+
+Pseido-gadījumskaitļu ģeneratora algoritmam nav nozīmes, kamēr tas ir kvalitatīvs, ģenerē nekorelētus skaitļus un ir ar vienmērīgu sadalījumu. Tādi ir visām apskatītajām valodām, tādēļ šis nav nozīmīgs faktors.
+
+Labi, plaši lineārās algebras ietvari ir pieejami lielākajai daļai populāro valodu. Tādi ir Python, Scala, Clojure, Java, C / C++ utt. Ātrdarbības nolūkos tos parasti var viegli integrēt ar esošajām BLAS / LAPACK pakotnēm. Taču ir viens svarīgs apstāklis -- Intel MKL un ATLAS ir rakstītas C / FORTRAN. Tās nav tiešā veidā saderīgas ar JVM. 
+
+No visa augstākminētā izriet, ka mašīnmācīšanās eksperimentu veikšanai vislabākās ir divas konfigurācijas:
+\begin{itemize}
+\item Python ar NumPy / SciPy + Intel MKL;
+\item Scala ar lineārās algebras ietvaru, piemēram, Scalala vai ScalaLab.
+\end{itemize}
 
 \literatura{es09260}
 

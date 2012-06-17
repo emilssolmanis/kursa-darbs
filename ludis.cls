@@ -187,7 +187,7 @@
 	\vskip 1em%
 	Ar savu parakstu apliecinu, ka pētījums veikts patstāvīgi, izmantoti tikai tajā norādītie informācijas avoti un iesniegtā darba elektroniskā kopija atbilst izdrukai.\par
 	\vskip 1em
-	Autors: \@author\par
+	Autors: \@author, st. apl. \@studapl\par
 	\vskip 2em
 	\hspace{4em}\begin{tabular}{cc}%
 		\underline{\hspace{10em}}\vspace{-2mm} &
@@ -196,7 +196,7 @@
 		 \tiny{(datums)}
 	\end{tabular}
 	\vskip 3em%
-	Rekomendēju darbu aizstāvēšanai.\par
+	Rekomendēju/nerekomentēju darbu aizstāvēšanai.\par
 	Vadītājs: \@vaditajs\par
 	\vskip 2em
 	\hspace{4em}\begin{tabular}{cc}%
@@ -206,24 +206,14 @@
 		 \tiny{(datums)}
 	\end{tabular}
 	\vskip 1em%
-	Recenzents: \@recenzents\par
-	\vskip 2em
-	\hspace{4	em}\begin{tabular}{cc}%
-		\underline{\hspace{10em}}\vspace{-2mm} &
-		\underline{\hspace{8em}} \\
-		 \tiny{(paraksts)} &
-		 \tiny{(datums)}
-	\end{tabular}
-
-	\vskip 3em%
 	\begin{tabular}{lc}
-	Darbs iesniegts \@nodalaD & \underline{\hspace{8em}} \\
+	Darbs iesniegts \@fakultateD & \underline{\hspace{8em}} \\
 	& \tiny{(datums)}
 	\end{tabular}\par
 	\vskip 1em
-	\begin{tabular}{c}%
-		\underline{\hspace{25em}}\vspace{-2mm} \\
-		 \tiny{(darbu pieņēma)}
+	\begin{tabular}{lc}%
+      Pieņēma  & \underline{\hspace{20em}}\\
+		& \tiny{(darbu pieņēma)}
 	\end{tabular}
 	\vskip 5em%
 	Darbs aizstāvēts \MakeLowercase{\@darbaveids} gala pārbaudījuma komisijas sēdē\par
