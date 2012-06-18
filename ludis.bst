@@ -920,29 +920,29 @@ FUNCTION {unpublished}
 
 FUNCTION {default.type} { misc }
 
-MACRO {jan} {"January"}
+MACRO {jan} {"Janvāris"}
 
-MACRO {feb} {"February"}
+MACRO {feb} {"Februāris"}
 
-MACRO {mar} {"March"}
+MACRO {mar} {"Marts"}
 
-MACRO {apr} {"April"}
+MACRO {apr} {"Aprīlis"}
 
-MACRO {may} {"May"}
+MACRO {may} {"Maijs"}
 
-MACRO {jun} {"June"}
+MACRO {jun} {"Jūnijs"}
 
-MACRO {jul} {"July"}
+MACRO {jul} {"Jūlijs"}
 
-MACRO {aug} {"August"}
+MACRO {aug} {"Augusts"}
 
-MACRO {sep} {"September"}
+MACRO {sep} {"Septembris"}
 
-MACRO {oct} {"October"}
+MACRO {oct} {"Oktobris"}
 
-MACRO {nov} {"November"}
+MACRO {nov} {"Novembris"}
 
-MACRO {dec} {"December"}
+MACRO {dec} {"Decembris"}
 
 MACRO {acmcs} {"ACM Computing Surveys"}
 

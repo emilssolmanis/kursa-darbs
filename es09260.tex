@@ -26,6 +26,7 @@
 \setcounter{tocdepth}{3}
 
 % formatting
+\usepackage{url}
 \usepackage{footnote}
 \usepackage{longtable}
 
@@ -72,13 +73,16 @@ xetex]{hyperref}
 \specnodala{Apzīmējumu saraksts}
 \setlength\LTleft{0pt}
 \setlength\LTright{0pt}
-\begin{longtable}{| c | c |}
+\begin{longtable}{| c | p{28em} |}
   \hline
   \textbf{Apzīmējums} & \textbf{Atšifrējums}\\ 
   \endhead
 
   \hline
   JVM & Java Virtuālā Mašīna\\
+  BLAS & Basic Linear Algebra Subprograms, funkciju kopa, kas nodrošina pamata lineārās algebras funkcionalitāti\\
+  LAPACK & Linear Algebra PACKage, BLAS funkciju kopas paplašinājums, balstoties uz to\\
+  Paralelizācija & Savstarpēji neatkarīgu programmas daļu vienlaicīga izpilde uz dažādiem procesora kodoliem vai procesoriem\\
   \hline
 \end{longtable}
 
@@ -128,7 +132,7 @@ Imperatīvās paradigmas nozīme mašīnmācīšanās un mākslīgā intelekta i
 
 Jāpiebilst, ka lai arī šī paradigma sākotnēji nespēlēja nopietnu lomu tieši mašīnmācīšanās izpētē, tās viens no pirmajiem pārstāvjiem, FORTRAN, ļāva ļoti efektīvi implementēt atsevišķas, svarīgas tehnoloģiju daļas, piemēram, matricu aritmētiku. Līdzīgas iespējas bija arī jaunākām valodām, C un C++. Tas stipri ietekmēja šīs paradigmas izaugsmi un popularitāti brīdī, kad skaitļošanas resursi kļuva lētāki un pieejamāki.
 
-Mūsdienās vērojams stabils dinamisko, multi-paradigmu valodu lietošanas pieaugums un tradicionālo funcktionālo valodu popularitātes kritums ~\cite{tiobe_index}. Tādējādi pamazām robeža starp paradigmām izplūst, un vairs nav retums pat viena projekta ietvaros sastapties ar vairākām paradigmām. Pat C++ jaunajā standartā ir spēris soli tuvāk funkcionālajai programmēšanai ieviešot {\em lambda}-izteiksmes ~\cite{iso_cpp11}.
+Mūsdienās vērojams stabils dinamisko, multi-paradigmu valodu lietošanas pieaugums un tradicionālo funkcionālo valodu popularitātes kritums ~\cite{tiobe_index}. Tādējādi pamazām robeža starp paradigmām izplūst, un vairs nav retums pat viena projekta ietvaros sastapties ar vairākām paradigmām. Pat C++ jaunajā standartā ir spēris soli tuvāk funkcionālajai programmēšanai ieviešot {\em lambda}-izteiksmes ~\cite{iso_cpp11}.
 
 \section{Programmēšanas valodas} \label{sec:languages}
 Kā minēts sadaļā ``\nameref{sec:paradigms}'' ar mākslīgā intelekta un mašīnmācīšanās izpēti ir saistītas, galvenokārt, deklaratīvā, funkcionālā un imperatīvā paradigma. No funkcionālās un deklaratīvās paradigmas tās gan ir vairāk konkrētas valodas, nekā visa paradigma.
@@ -253,6 +257,7 @@ Lai pseido-gadījumskaitļu ģenerēšanas algoritmu varētu lietot mašīnmāc�
 Lineāri kongruenciālie algoritmi nav derīgi mašīnmācīšanās eksperimentiem, jo tiem ir zema kvalitāte, to ģenerēto skaitļu virknēs ir korelācijas ~\cite{rng_miller_park}. Pārējām trim klasēm šādu problēmu nav.
 
 Reizināšana ar pārnesi ir Džordža Marsaglias 1991. gadā konstruēts algoritms ~\cite{rng_new_marsaglia}. ``Mersenne Twister'' ir jaunāka algoritmu klase, ko 1998. gadā konstruēja Matsumoto un Nišimura ~\cite{rng_mersenne}. Aizturētajiem Fibonači algoritmiem var rasties problēmas, ja tos nepareizi inicializē. Visām trim klasēm ir iespējami pietiekami gari periodi, lai tie nebūtu nozīmīgs faktors algoritma izvēlē. Vienīgās atšķirības varētu būt to ātrdarbībā. 
+\newpage
 \begin{figure}
   \centering
   \begin{tikzpicture}
@@ -271,10 +276,10 @@ Reizināšana ar pārnesi ir Džordža Marsaglias 1991. gadā konstruēts algori
      };
     \end{axis}
   \end{tikzpicture}  
-  \caption[Gadījumskaitļu ģeneratoru ātrdarbība]{Gadījumskaitļu ģenerēšanas ātrdarbība, sekundes $10^9$ gadījumskaitļu ģenerēšanai}
-  Rezultāti iegūti ar GCC 4.7.0.
+  \caption[Gadījumskaitļu ģeneratoru ātrdarbība]{Gadījumskaitļu ģenerēšanas ātrdarbība, sekundes $10^9$ gadījumskaitļu ģenerēšanai\footnotemark}
   \label{fig:rng_performance}
 \end{figure}
+\footnotetext{GCC 4.7.0 uz AMD Phenom II 1100T BE procesora.}
 Eksperimentāli iegūtie rezultāti rāda, ka ātrākā ir reizināšana ar pārnesi $t \approx 2.7$, aizturētā Fibonači metode ir mazliet lēnāka $t \approx 6$ un ``Mersenne Twister'' ir lēnākā $t \approx 8.2$. Taču šie ir laiki, kas nepieciešami lai uzģenerētu $10^9$ gadījumskaitļus. Tas nozīmē, ka laiks, kas nepieciešams, lai ar jebkuru no algoritmiem uzģenerētu gadījumskaitli ir dažas nanosekundes.
 
 Arī Python tika implementēta reizināšana ar pārnesi, taču tās laiks jau pie $10^7$ skaitļu ģenerēšanas bija $\approx 58 s$. Tas skaidrojams ar to, ka pēc noklusējuma Python lieto ``Mersenne Twister'' implementāciju, kas rakstīta C.
@@ -301,10 +306,10 @@ Redzams, ka ātrākā implementācija ir Intel MKL, taču ATLAS tālu neatpaliek
      };
     \end{axis}
   \end{tikzpicture}  
-  \caption[Lineārās algebras pakotņu ātrdarbība]{Lineārās algebras pakotņu ātrdarbība, sekundes lai 1000 reizes sareizinātu divas 1024 x 1024 matricas}
+  \caption[Lineārās algebras pakotņu ātrdarbība]{Lineārās algebras pakotņu ātrdarbība, sekundes lai 1000 reizes sareizinātu divas 1024 x 1024 matricas\footnotemark}
   \label{fig:blas_performance}
 \end{figure}
-
+\footnotetext{ICC 12.1, GCC 4.6.2 uz Intel Xeon X5650 6-kodolu procesora}
 Jāpiebilst, ka parasti augstāka līmeņa ietvari piedāvā plašākas iespējas, nekā pieejamas tikai BLAS / LAPACK pakotnēs, un tiem ir daudz saprotamāka programmētāja saskarne, tādēļ tie ir labāka izvēle.
 
 \section{Paralēlā programmēšana}
